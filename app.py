@@ -8,6 +8,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///todo.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+
+
+
 class Todo(db.Model):
     sno = db.Column(db.Integer,primary_key=True)
     title = db.Column(db.String(200),nullable=False)
@@ -20,6 +23,10 @@ class Todo(db.Model):
 @app.route('/')
 def hello_world():
     # return '<p>Hello world<p>'
+    todo = Todo(title="First Todo", desc="Start investing in Stock market")
+    todo.verified=True
+    db.session.add(todo)
+    db.session.commit()
     return render_template('index.html')
 
 
@@ -29,5 +36,7 @@ def greet():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)  #if run via python app.py then can change port-->>   ,port=8000
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True,port=8000)  #if run via python app.py then can change port-->>   ,port=8000
 #also running through app.py method instead of flask run the changes made in the code will be automatically reflected
