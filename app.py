@@ -1,8 +1,11 @@
-from flask import Flask
+from flask import Flask #import Flask module from flask package
+from flask import render_template #import render_template from flask package
 app = Flask(__name__)
 @app.route('/')
 def hello_world():
-    return '<p>Hello world<p>'
+    # return '<p>Hello world<p>'
+    return render_template('index.html')
+
 
 @app.route('/product')
 def greet():
