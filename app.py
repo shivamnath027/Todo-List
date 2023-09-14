@@ -2,6 +2,7 @@ from flask import Flask #import Flask module from flask package
 from flask import render_template #import render_template from flask package
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from flask import request
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///todo.db"
@@ -20,19 +21,30 @@ class Todo(db.Model):
     def __repr__(self) -> str:
         return f"{self.sno} - {self.title}"
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def hello_world():
     # return '<p>Hello world<p>'
-    todo = Todo(title="First Todo", desc="Start investing in Stock market")
-    todo.verified=True
-    db.session.add(todo)
-    db.session.commit()
-    return render_template('index.html')
+    if request.method=="POST":
+        # print("post")
+        form_title = request.form['title']
+        form_desc = request.form['desc']
+        if form_title and form_desc:
+            todo = Todo(title=form_title, desc=form_desc)
+            todo.verified=True
+            
+            db.session.add(todo)
+            db.session.commit()
+            
+    allTodo = Todo.query.all()
+    print(allTodo)
+    return render_template('index.html', allTodo=allTodo)
 
 
-@app.route('/product')
-def greet():
-    return "<h1>This is Product Page<h1>"
+@app.route('/show')
+def products():
+    allTodo = Todo.query.all()
+    print(allTodo)
+    return 'This is Product Page'
 
 
 if __name__ == "__main__":
