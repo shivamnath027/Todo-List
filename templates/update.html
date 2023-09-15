@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock title %}
+{% block body %}
+
+    
+    
+      
+
+    <div class="container">
+
+        <h3>
+            Update
+            <small class="text-body-secondary" >TODO </small>
+          </h3>
+
+        <form action="/update/{{todo.sno}}" method="POST">
+            <div class="mb-3">
+              <label for="title" class="form-label">TODO Title</label>
+              <input type="text" class="form-control" name="title" id="title" value="{{todo.title}}" aria-describedby="emailHelp">
+              <div id="titleHelp" class="form-text">anything to-DO like shopping, investing etc.</div>
+            </div>
+            <div class="mb-3">
+              <label for="desc" class="form-label">TODO Description</label>
+              <input type="text" class="form-control" name="desc" id="desc" value="{{todo.desc}}">
+            </div>
+
+            <!-- <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div> -->
+
+            <button type="submit" class="btn btn-dark">Update</button>
+          </form>
+          </div>    
+
+    {% endblock body %}
